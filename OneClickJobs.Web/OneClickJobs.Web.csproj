@@ -1,15 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>aspnet-OneClickJobs.Web2-e0fa932e-fa35-4270-a525-076a4bcde556</UserSecretsId>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\OneClickJobs.Repositories\OneClickJobs.Repositories.csproj" />
-    <ProjectReference Include="..\OneClickJobs.Services\OneClickJobs.Services.csproj" />
-    <ProjectReference Include="..\OneClickJobs.UseCases\OneClickJobs.UseCases.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\OneClickJobs.Repositories\OneClickJobs.Repositories.csproj" />
+        <ProjectReference Include="..\OneClickJobs.Services\OneClickJobs.Services.csproj" />
+        <ProjectReference Include="..\OneClickJobs.UseCases\OneClickJobs.UseCases.csproj" />
+    </ItemGroup>
 
 </Project>

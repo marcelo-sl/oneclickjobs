@@ -10,17 +10,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneClickJobs.Web", "OneClickJobs.Web\OneClickJobs.Web.csproj", "{E0A6E4E4-50E4-40B5-B1F0-9BECB0D77A31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneClickJobs.Domain", "OneClickJobs.Domain\OneClickJobs.Domain.csproj", "{BB92FE83-E8A0-4011-87AD-D0B51BFEADD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneClickJobs.Domain", "OneClickJobs.Domain\OneClickJobs.Domain.csproj", "{BB92FE83-E8A0-4011-87AD-D0B51BFEADD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneClickJobs.UseCases", "OneClickJobs.UseCases\OneClickJobs.UseCases.csproj", "{CBA6310F-8524-4B0B-BBB9-900C50F64146}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneClickJobs.UseCases", "OneClickJobs.UseCases\OneClickJobs.UseCases.csproj", "{CBA6310F-8524-4B0B-BBB9-900C50F64146}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneClickJobs.Services", "OneClickJobs.Services\OneClickJobs.Services.csproj", "{CBF869B0-497A-462E-8CDF-4B3DD0042820}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneClickJobs.Services", "OneClickJobs.Services\OneClickJobs.Services.csproj", "{CBF869B0-497A-462E-8CDF-4B3DD0042820}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneClickJobs.Repositories", "OneClickJobs.Repositories\OneClickJobs.Repositories.csproj", "{173CDD3F-F19E-4C79-A759-3C67128B6D63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneClickJobs.Repositories", "OneClickJobs.Repositories\OneClickJobs.Repositories.csproj", "{173CDD3F-F19E-4C79-A759-3C67128B6D63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneClickJobs.Tests", "OneClickJobs.Tests\OneClickJobs.Tests.csproj", "{29195781-3393-4354-85B5-A144D29ABC7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneClickJobs.Tests", "OneClickJobs.Tests\OneClickJobs.Tests.csproj", "{29195781-3393-4354-85B5-A144D29ABC7B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneClickJobs.Web", "OneClickJobs.Web\OneClickJobs.Web.csproj", "{7E02F8C8-F9A1-448E-A332-7755678053B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +28,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E0A6E4E4-50E4-40B5-B1F0-9BECB0D77A31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0A6E4E4-50E4-40B5-B1F0-9BECB0D77A31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0A6E4E4-50E4-40B5-B1F0-9BECB0D77A31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0A6E4E4-50E4-40B5-B1F0-9BECB0D77A31}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BB92FE83-E8A0-4011-87AD-D0B51BFEADD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BB92FE83-E8A0-4011-87AD-D0B51BFEADD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB92FE83-E8A0-4011-87AD-D0B51BFEADD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -52,6 +48,10 @@ Global
 		{29195781-3393-4354-85B5-A144D29ABC7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29195781-3393-4354-85B5-A144D29ABC7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29195781-3393-4354-85B5-A144D29ABC7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E02F8C8-F9A1-448E-A332-7755678053B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E02F8C8-F9A1-448E-A332-7755678053B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E02F8C8-F9A1-448E-A332-7755678053B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E02F8C8-F9A1-448E-A332-7755678053B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
