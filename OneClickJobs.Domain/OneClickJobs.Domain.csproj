@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Entities\" />
     <Folder Include="Configurations\" />
-    <Folder Include="Records\" />
     <Folder Include="Repositories\" />
     <Folder Include="UseCases\" />
     <Folder Include="Services\" />

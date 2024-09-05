@@ -1,4 +1,4 @@
-namespace OneClickJobs.Web.Models;
+﻿namespace OneClickJobs.Domain.ViewModels;
 
 public class ErrorViewModel
 {
