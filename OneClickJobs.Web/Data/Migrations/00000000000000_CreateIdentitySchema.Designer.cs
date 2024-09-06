@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-using OneClickJobs.Web.Data;
+using OneClickJobs.Web.Data.Contexts;
 
 namespace OneClickJobs.Web.Data.Migrations;
 [DbContext(typeof(ApplicationDbContext))]

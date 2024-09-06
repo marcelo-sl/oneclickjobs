@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-using OneClickJobs.Web.Data;
+using OneClickJobs.Web.Data.Contexts;
 
 namespace OneClickJobs.Web;
 

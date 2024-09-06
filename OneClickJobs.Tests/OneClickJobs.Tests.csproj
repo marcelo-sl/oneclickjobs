@@ -17,11 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OneClickJobs.Services\OneClickJobs.Services.csproj" />
-    <ProjectReference Include="..\OneClickJobs.UseCases\OneClickJobs.UseCases.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 

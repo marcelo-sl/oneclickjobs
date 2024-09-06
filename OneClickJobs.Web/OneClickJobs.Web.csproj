@@ -15,10 +15,4 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8" />
     </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\OneClickJobs.Repositories\OneClickJobs.Repositories.csproj" />
-        <ProjectReference Include="..\OneClickJobs.Services\OneClickJobs.Services.csproj" />
-        <ProjectReference Include="..\OneClickJobs.UseCases\OneClickJobs.UseCases.csproj" />
-    </ItemGroup>
-
 </Project>
