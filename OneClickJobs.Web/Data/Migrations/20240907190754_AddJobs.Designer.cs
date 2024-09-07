@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneClickJobs.Web.Data.Contexts;
 
 #nullable disable
 
-namespace OneClickJobs.Web2.Data.Migrations
+namespace OneClickJobs.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240907190754_AddJobs")]
+    partial class AddJobs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,39 +227,6 @@ namespace OneClickJobs.Web2.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("OneClickJobs.Web.Data.Entities.Application", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("JobId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("ResumeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JobId");
-
-                    b.HasIndex("ResumeId");
-
-                    b.ToTable("Applications", (string)null);
-                });
-
             modelBuilder.Entity("OneClickJobs.Web.Data.Entities.Job", b =>
                 {
                     b.Property<int>("Id")
@@ -292,37 +262,6 @@ namespace OneClickJobs.Web2.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Jobs", (string)null);
-                });
-
-            modelBuilder.Entity("OneClickJobs.Web.Data.Entities.Resume", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<byte[]>("FileContent")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Resumes", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -374,23 +313,6 @@ namespace OneClickJobs.Web2.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("OneClickJobs.Web.Data.Entities.Application", b =>
-                {
-                    b.HasOne("OneClickJobs.Web.Data.Entities.Job", "Job")
-                        .WithMany()
-                        .HasForeignKey("JobId")
-                        .IsRequired();
-
-                    b.HasOne("OneClickJobs.Web.Data.Entities.Resume", "Resume")
-                        .WithMany()
-                        .HasForeignKey("ResumeId")
-                        .IsRequired();
-
-                    b.Navigation("Job");
-
-                    b.Navigation("Resume");
                 });
 #pragma warning restore 612, 618
         }
