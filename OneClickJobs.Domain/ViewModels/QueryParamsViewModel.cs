@@ -1,8 +1,8 @@
-﻿namespace OneClickJobs.Web.Data.Records;
+﻿namespace OneClickJobs.Domain.ViewModels;
 
-public record QueryParams
+public record QueryParamsViewModel
 {
-    public QueryParams()
+    public QueryParamsViewModel()
     {
         Page = 1;
         Size = 10;

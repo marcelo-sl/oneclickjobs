@@ -1,4 +1,4 @@
-﻿namespace OneClickJobs.Web.Data.ViewModels.Resumes;
+﻿namespace OneClickJobs.Domain.ViewModels.Resumes;
 
 public class ViewResumeViewModel
 {

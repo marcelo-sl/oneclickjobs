@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OneClickJobs.Web.Data.Entities;
+
+using OneClickJobs.Domain.Entities;
 
 namespace OneClickJobs.Web.Data.Contexts;
 

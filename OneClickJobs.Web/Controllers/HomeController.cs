@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using OneClickJobs.Web.Data.ViewModels;
+using OneClickJobs.Domain.ViewModels;
 
 namespace OneClickJobs.Web.Controllers;
 public class HomeController : Controller

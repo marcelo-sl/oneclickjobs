@@ -1,4 +1,4 @@
-﻿namespace OneClickJobs.Web.Data.Entities;
+﻿namespace OneClickJobs.Domain.Entities;
 
 /// <summary>
 /// Entity base abstract class.

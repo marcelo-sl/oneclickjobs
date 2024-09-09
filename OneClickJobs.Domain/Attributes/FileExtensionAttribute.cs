@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OneClickJobs.Web.Attributes;
+using Microsoft.AspNetCore.Http;
+
+namespace OneClickJobs.Domain.Attributes;
 
 public class FileExtensionAttribute : ValidationAttribute
 {

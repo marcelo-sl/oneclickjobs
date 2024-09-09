@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OneClickJobs.Web.Data.Entities;
+
+using OneClickJobs.Domain.Entities;
 
 namespace OneClickJobs.Web.Data.Mappings;
 

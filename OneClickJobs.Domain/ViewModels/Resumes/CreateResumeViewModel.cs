@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using OneClickJobs.Web.Attributes;
+using Microsoft.AspNetCore.Http;
 
-namespace OneClickJobs.Web.Data.ViewModels.Resumes;
+using OneClickJobs.Domain.Attributes;
+
+namespace OneClickJobs.Domain.ViewModels.Resumes;
 
 public class CreateResumeViewModel
 {
     [Required]
-    [FileExtensionAttribute([".pdf"])]
+    [FileExtension([".pdf"])]
     public IFormFile FormFile { get; set; } = null!;
 }

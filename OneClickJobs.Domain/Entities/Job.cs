@@ -1,4 +1,4 @@
-﻿namespace OneClickJobs.Web.Data.Entities;
+﻿namespace OneClickJobs.Domain.Entities;
 
 public sealed class Job : EntityBase<int>
 {

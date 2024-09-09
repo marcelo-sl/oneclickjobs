@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+using OneClickJobs.Domain.Entities;
+using OneClickJobs.Domain.ViewModels;
 using OneClickJobs.Web.Data.Contexts;
-using OneClickJobs.Web.Data.Entities;
-using OneClickJobs.Web.Data.Records;
 using OneClickJobs.Web.Helpers;
 using OneClickJobs.Web.Services.Authentication;
 
@@ -26,7 +26,7 @@ public class JobsController : Controller
 
     // GET: Jobs
     [AllowAnonymous]
-    public async Task<IActionResult> Index([FromQuery] QueryParams queryParams)
+    public async Task<IActionResult> Index([FromQuery] QueryParamsViewModel queryParams)
     {
         List<Job> jobs = [];
 

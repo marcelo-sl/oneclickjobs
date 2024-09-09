@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+using OneClickJobs.Domain.Entities;
+using OneClickJobs.Domain.ViewModels.Resumes;
 using OneClickJobs.Web.Data.Contexts;
-using OneClickJobs.Web.Data.Entities;
-using OneClickJobs.Web.Data.ViewModels.Resumes;
 using OneClickJobs.Web.Helpers;
 using OneClickJobs.Web.Services.Authentication;
 
