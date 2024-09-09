@@ -38,9 +38,9 @@ public class JobsController : Controller
 
             jobs = await _context.Jobs
                 .AsNoTracking()
+                .OrderByDescending(x => x.CreatedAt)
                 .Skip(PaginationHelper.SkipRecords(queryParams.Page, queryParams.Size))
                 .Take(PaginationHelper.TakeRecords(queryParams.Size))
-                .OrderByDescending(x => x.CreatedAt)
                 .ToListAsync();
         }
         else
@@ -52,9 +52,9 @@ public class JobsController : Controller
             jobs = await _context.Jobs
                 .AsNoTracking()
                 .Where(x => x.Title.Contains(queryParams.Search) || x.Description.Contains(queryParams.Search))
+                .OrderByDescending(x => x.CreatedAt)
                 .Skip(PaginationHelper.SkipRecords(queryParams.Page, queryParams.Size))
                 .Take(PaginationHelper.TakeRecords(queryParams.Size))
-                .OrderByDescending(x => x.CreatedAt)
                 .ToListAsync();
         }
 
