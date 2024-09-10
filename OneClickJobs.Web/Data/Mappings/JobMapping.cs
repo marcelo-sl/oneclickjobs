@@ -25,5 +25,8 @@ public sealed class JobMapping : IEntityTypeConfiguration<Job>
         builder.Property(x => x.Status)
             .HasColumnType("varchar(30)")
             .IsRequired();
+
+        builder.HasMany(x => x.Categories)
+            .WithMany(x => x.Jobs);
     }
 }

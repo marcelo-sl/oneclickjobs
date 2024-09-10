@@ -18,6 +18,11 @@ public sealed class Job : EntityBase<int>
     public JobStatus Status { get; private set; }
 
     /// <summary>
+    /// Gets or sets categories.
+    /// </summary>
+    public List<Category> Categories { get; set; } = [];
+
+    /// <summary>
     /// Tries to change job status to <see cref="JobStatus.Closed"/>.
     /// </summary>
     /// <param name="userId">The user id.</param>
