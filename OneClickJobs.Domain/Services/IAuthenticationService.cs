@@ -1,4 +1,4 @@
-﻿namespace OneClickJobs.Web.Services.Authentication;
+﻿namespace OneClickJobs.Domain.Services;
 
 public interface IAuthenticationService
 {

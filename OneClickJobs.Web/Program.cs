@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+using OneClickJobs.Domain.Services;
 using OneClickJobs.Web.Data.Contexts;
 using OneClickJobs.Web.Services.Authentication;
 

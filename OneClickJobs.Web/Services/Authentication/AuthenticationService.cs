@@ -1,5 +1,7 @@
 ﻿using System.Security.Claims;
 
+using OneClickJobs.Domain.Services;
+
 namespace OneClickJobs.Web.Services.Authentication;
 
 public class AuthenticationService : IAuthenticationService
