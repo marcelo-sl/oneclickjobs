@@ -1,12 +1,11 @@
-﻿using System.Linq;
-
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using OneClickJobs.Domain.Entities;
 using OneClickJobs.Domain.Services;
 using OneClickJobs.Domain.ViewModels;
+using OneClickJobs.Domain.ViewModels.Jobs;
 using OneClickJobs.Web.Data.Contexts;
 using OneClickJobs.Web.Helpers;
 
@@ -90,16 +89,42 @@ public class JobsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Title,Description")] Job job)
+    public async Task<IActionResult> Create(CreateJobViewModel jobViewModel)
     {
         if (ModelState.IsValid)
         {
-            job.CreatedBy = _authenticationService.GetUserId();
-            _context.Add(job);
+            var userId = _authenticationService.GetUserId();
+
+            Job newJob = new()
+            {
+                Title = jobViewModel.Title,
+                Description = jobViewModel.Description,
+                CreatedBy = userId
+            };
+
+            var category = await _context.Categories
+                .Where(x => x.Name == jobViewModel.Category)
+                .FirstOrDefaultAsync();
+
+            if (category == null)
+            {
+                Category newCategory = new()
+                {
+                    Name = jobViewModel.Category,
+                    CreatedBy = userId
+                };
+
+                _context.Categories.Add(newCategory);
+                category = newCategory;
+            }
+
+            newJob.Categories.Add(category);
+
+            _context.Add(newJob);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        return View(job);
+        return View(jobViewModel);
     }
 
     // GET: Jobs/Edit/5
