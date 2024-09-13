@@ -16,13 +16,14 @@ public class ResumesController : Controller
     private readonly ApplicationDbContext _context;
     private readonly IAuthenticationService _authenticationService;
 
+    private const int MaximumResumes = 2;
+
     public ResumesController(ApplicationDbContext context, IAuthenticationService authenticationService)
     {
         _context = context;
         _authenticationService = authenticationService;
     }
 
-    // GET: Resumes
     public async Task<IActionResult> Index()
     {
         var userId = _authenticationService.GetUserId();
@@ -34,7 +35,6 @@ public class ResumesController : Controller
         return View(resumes);
     }
 
-    // GET: Resumes/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {
         if (id == null)
@@ -49,8 +49,8 @@ public class ResumesController : Controller
             return NotFound();
         }
 
-        ViewResumeViewModel resumeViewModel = new() 
-        { 
+        ViewResumeViewModel resumeViewModel = new()
+        {
             Id = resume.Id,
             FileName = resume.FileName,
             Base64string = Convert.ToBase64String(resume.FileContent)
@@ -59,39 +59,44 @@ public class ResumesController : Controller
         return View(resumeViewModel);
     }
 
-    // GET: Resumes/Create
     public IActionResult Create()
     {
         return View();
     }
 
-    // POST: Resumes/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateResumeViewModel createResumeViewModel)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            var userId = _authenticationService.GetUserId();
-            var resumeId = Guid.NewGuid();
-            Resume resume = new()
-            {
-                Id = resumeId,
-                CreatedBy = userId,
-                FileName = createResumeViewModel.FormFile.FileName,
-                FileContent = await FileHelper.ConvertToArrayAsync(createResumeViewModel.FormFile)
-            };
-
-            _context.Add(resume);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View(createResumeViewModel);
         }
-        return View(createResumeViewModel);
+
+        var userId = _authenticationService.GetUserId();
+
+        var resumeCount = await _context.Resumes.AsNoTracking().Where(x => x.CreatedBy == userId).CountAsync();
+
+        if (resumeCount >= MaximumResumes)
+        {
+            ModelState.AddModelError("Resume", "Only 2 resumes allowed.");
+            return View(createResumeViewModel);
+        }
+
+        var resumeId = Guid.NewGuid();
+        Resume resume = new()
+        {
+            Id = resumeId,
+            CreatedBy = userId,
+            FileName = createResumeViewModel.FormFile.FileName,
+            FileContent = await FileHelper.ConvertToArrayAsync(createResumeViewModel.FormFile)
+        };
+
+        _context.Add(resume);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
     }
 
-    // GET: Resumes/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null)
@@ -107,9 +112,6 @@ public class ResumesController : Controller
         return View(resume);
     }
 
-    // POST: Resumes/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("FileName,FileContent,Id,CreatedAt,CreatedBy,UpdatedAt,UpdatedBy")] Resume resume)
@@ -142,7 +144,6 @@ public class ResumesController : Controller
         return View(resume);
     }
 
-    // GET: Resumes/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null)
@@ -160,7 +161,6 @@ public class ResumesController : Controller
         return View(resume);
     }
 
-    // POST: Resumes/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
