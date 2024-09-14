@@ -17,10 +17,8 @@ public sealed class JobMapping : IEntityTypeConfiguration<Job>
         builder.Property(x => x.Title)
             .HasColumnType("varchar(100)")
             .IsRequired();
-
-        builder.Property(x => x.Description)
-            .HasColumnType("varchar(100)")
-            .IsRequired();
+        
+        builder.Property(x => x.Description).IsRequired();
 
         builder.Property(x => x.Status)
             .HasColumnType("varchar(30)")

@@ -9,7 +9,6 @@ public class CreateJobViewModel
     public string Title { get; set; } = string.Empty;
 
     [Required]
-    [MaxLength(100)]
     public string Description { get; set; } = string.Empty;
 
     [Required]

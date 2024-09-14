@@ -30,6 +30,7 @@ public class JobsController(ApplicationDbContext context, IAuthenticationService
                 .OrderByDescending(x => x.CreatedAt)
                 .Skip(PaginationHelper.SkipRecords(queryParams.Page, queryParams.Size))
                 .Take(PaginationHelper.TakeRecords(queryParams.Size))
+                .Include(x => x.Categories)
                 .ToListAsync();
         }
         else
@@ -44,6 +45,7 @@ public class JobsController(ApplicationDbContext context, IAuthenticationService
                 .OrderByDescending(x => x.CreatedAt)
                 .Skip(PaginationHelper.SkipRecords(queryParams.Page, queryParams.Size))
                 .Take(PaginationHelper.TakeRecords(queryParams.Size))
+                .Include(x => x.Categories)
                 .ToListAsync();
         }
 

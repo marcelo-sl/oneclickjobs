@@ -4,39 +4,15 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
 <div>
-    <h4>@Html.DisplayFor(model => model.Title)</h4>
+    <h2>@Html.DisplayFor(model => model.Title) | @Html.DisplayFor(model => model.Status) | @Model.CreatedAt.ToLocalTime().DateTime.ToString() </h2>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-12">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-12">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-12">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-12">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-12">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-12">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class = "col-sm-12">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-12">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-    </dl>
+    <div class="article-content">
+        @Html.Raw(Model.Description)
+    </div>
 </div>
-<div>
+
+<div class="mt-4">
     <a class="btn btn-secondary" href="javascript:history.back()">Back</a>
     <a class="btn btn-primary" asp-controller="Applications" asp-action="Create" asp-route-id="@Model?.Id">Apply</a>
 </div>
