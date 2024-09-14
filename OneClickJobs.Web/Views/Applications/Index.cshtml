@@ -1,0 +1,45 @@
+﻿@model IEnumerable<OneClickJobs.Domain.Entities.Application>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>My applications</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Job.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Resume.FileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Job.Title)
+            </td>
+            <td>
+                <a asp-controller="Resumes" asp-action="Details" asp-route-id="@item.Resume.Id">
+                    @Html.DisplayFor(modelItem => item.Resume.FileName)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                <a class="btn btn-sm btn-outline-primary" asp-controller="Jobs" asp-action="Details" asp-route-id="@item.Job.Id">Details</a>
+                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

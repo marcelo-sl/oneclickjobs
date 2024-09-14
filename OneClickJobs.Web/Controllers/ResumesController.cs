@@ -82,53 +82,6 @@ public class ResumesController(ApplicationDbContext context, IAuthenticationServ
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> Edit(Guid? id)
-    {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        var resume = await context.Resumes.FindAsync(id);
-        if (resume == null)
-        {
-            return NotFound();
-        }
-        return View(resume);
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("FileName,FileContent,Id,CreatedAt,CreatedBy,UpdatedAt,UpdatedBy")] Resume resume)
-    {
-        if (id != resume.Id)
-        {
-            return NotFound();
-        }
-
-        if (ModelState.IsValid)
-        {
-            try
-            {
-                context.Update(resume);
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ResumeExists(resume.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return RedirectToAction(nameof(Index));
-        }
-        return View(resume);
-    }
-
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null)
@@ -158,10 +111,5 @@ public class ResumesController(ApplicationDbContext context, IAuthenticationServ
 
         await context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
-    }
-
-    private bool ResumeExists(Guid id)
-    {
-        return context.Resumes.Any(e => e.Id == id);
     }
 }
