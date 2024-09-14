@@ -12,18 +12,8 @@ using OneClickJobs.Web.Helpers;
 namespace OneClickJobs.Web.Controllers;
 
 [Authorize]
-public class JobsController : Controller
+public class JobsController(ApplicationDbContext context, IAuthenticationService authenticationService) : Controller
 {
-    private readonly ApplicationDbContext _context;
-    private readonly IAuthenticationService _authenticationService;
-
-    public JobsController(ApplicationDbContext context, IAuthenticationService authenticationService)
-    {
-        _context = context;
-        _authenticationService = authenticationService;
-    }
-
-    // GET: Jobs
     [AllowAnonymous]
     public async Task<IActionResult> Index([FromQuery] QueryParamsViewModel queryParams)
     {
@@ -33,9 +23,9 @@ public class JobsController : Controller
 
         if (string.IsNullOrWhiteSpace(queryParams.Search))
         {
-            recordsCount = _context.Jobs.Count();
+            recordsCount = context.Jobs.Count();
 
-            jobs = await _context.Jobs
+            jobs = await context.Jobs
                 .AsNoTracking()
                 .OrderByDescending(x => x.CreatedAt)
                 .Skip(PaginationHelper.SkipRecords(queryParams.Page, queryParams.Size))
@@ -44,11 +34,11 @@ public class JobsController : Controller
         }
         else
         {
-            recordsCount = _context.Jobs
+            recordsCount = context.Jobs
                 .Where(x => x.Title.Contains(queryParams.Search) || x.Description.Contains(queryParams.Search))
                 .Count();
 
-            jobs = await _context.Jobs
+            jobs = await context.Jobs
                 .AsNoTracking()
                 .Where(x => x.Title.Contains(queryParams.Search) || x.Description.Contains(queryParams.Search))
                 .OrderByDescending(x => x.CreatedAt)
@@ -63,7 +53,6 @@ public class JobsController : Controller
         return View(jobs);
     }
 
-    // GET: Jobs/Details/5
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null)
@@ -71,29 +60,25 @@ public class JobsController : Controller
             return NotFound();
         }
 
-        var job = await _context.Jobs
+        var job = await context.Jobs
             .AsNoTracking()
             .FirstOrDefaultAsync(m => m.Id == id);
 
         return job == null ? NotFound() : View(job);
     }
 
-    // GET: Jobs/Create
     public IActionResult Create()
     {
         return View();
     }
 
-    // POST: Jobs/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateJobViewModel jobViewModel)
     {
         if (ModelState.IsValid)
         {
-            var userId = _authenticationService.GetUserId();
+            var userId = authenticationService.GetUserId();
 
             Job newJob = new()
             {
@@ -102,7 +87,7 @@ public class JobsController : Controller
                 CreatedBy = userId
             };
 
-            var category = await _context.Categories
+            var category = await context.Categories
                 .Where(x => x.Name == jobViewModel.Category)
                 .FirstOrDefaultAsync();
 
@@ -114,14 +99,14 @@ public class JobsController : Controller
                     CreatedBy = userId
                 };
 
-                _context.Categories.Add(newCategory);
+                context.Categories.Add(newCategory);
                 category = newCategory;
             }
 
             newJob.Categories.Add(category);
 
-            _context.Add(newJob);
-            await _context.SaveChangesAsync();
+            context.Add(newJob);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         return View(jobViewModel);
@@ -135,7 +120,7 @@ public class JobsController : Controller
             return NotFound();
         }
 
-        var job = await _context.Jobs.FindAsync(id);
+        var job = await context.Jobs.FindAsync(id);
         return job == null ? NotFound() : View(job);
     }
 
@@ -155,8 +140,8 @@ public class JobsController : Controller
         {
             try
             {
-                _context.Update(job);
-                await _context.SaveChangesAsync();
+                context.Update(job);
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -174,7 +159,6 @@ public class JobsController : Controller
         return View(job);
     }
 
-    // GET: Jobs/Delete/5
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
@@ -182,7 +166,7 @@ public class JobsController : Controller
             return NotFound();
         }
 
-        var job = await _context.Jobs
+        var job = await context.Jobs
             .FirstOrDefaultAsync(m => m.Id == id);
         if (job == null)
         {
@@ -192,23 +176,22 @@ public class JobsController : Controller
         return View(job);
     }
 
-    // POST: Jobs/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var job = await _context.Jobs.FindAsync(id);
+        var job = await context.Jobs.FindAsync(id);
         if (job != null)
         {
-            _context.Jobs.Remove(job);
+            context.Jobs.Remove(job);
         }
 
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool JobExists(int id)
     {
-        return _context.Jobs.AsNoTracking().Any(e => e.Id == id);
+        return context.Jobs.AsNoTracking().Any(e => e.Id == id);
     }
 }

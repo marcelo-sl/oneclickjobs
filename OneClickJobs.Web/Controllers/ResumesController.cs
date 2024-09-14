@@ -11,25 +11,15 @@ using OneClickJobs.Web.Helpers;
 namespace OneClickJobs.Web.Controllers;
 
 [Authorize]
-public class ResumesController : Controller
+public class ResumesController(ApplicationDbContext context, IAuthenticationService authenticationService) : Controller
 {
-    private readonly ApplicationDbContext _context;
-    private readonly IAuthenticationService _authenticationService;
-
     private const int MaximumResumes = 2;
-
-    public ResumesController(ApplicationDbContext context, IAuthenticationService authenticationService)
-    {
-        _context = context;
-        _authenticationService = authenticationService;
-    }
 
     public async Task<IActionResult> Index()
     {
-        var userId = _authenticationService.GetUserId();
-        var resumes = await _context.Resumes
+        var resumes = await context.Resumes
             .AsNoTracking()
-            .Where(x => x.CreatedBy == userId)
+            .Where(x => x.CreatedBy == authenticationService.GetUserId())
             .ToListAsync();
 
         return View(resumes);
@@ -42,19 +32,14 @@ public class ResumesController : Controller
             return NotFound();
         }
 
-        var resume = await _context.Resumes
+        var resume = await context.Resumes
             .FirstOrDefaultAsync(m => m.Id == id);
         if (resume == null)
         {
             return NotFound();
         }
 
-        ViewResumeViewModel resumeViewModel = new()
-        {
-            Id = resume.Id,
-            FileName = resume.FileName,
-            Base64string = Convert.ToBase64String(resume.FileContent)
-        };
+        var resumeViewModel = new ViewResumeViewModel(resume.Id, resume.FileName, resume.FileContent, resume.CreatedAt);
 
         return View(resumeViewModel);
     }
@@ -73,9 +58,9 @@ public class ResumesController : Controller
             return View(createResumeViewModel);
         }
 
-        var userId = _authenticationService.GetUserId();
+        var userId = authenticationService.GetUserId();
 
-        var resumeCount = await _context.Resumes.AsNoTracking().Where(x => x.CreatedBy == userId).CountAsync();
+        var resumeCount = await context.Resumes.AsNoTracking().Where(x => x.CreatedBy == userId).CountAsync();
 
         if (resumeCount >= MaximumResumes)
         {
@@ -92,8 +77,8 @@ public class ResumesController : Controller
             FileContent = await FileHelper.ConvertToArrayAsync(createResumeViewModel.FormFile)
         };
 
-        _context.Add(resume);
-        await _context.SaveChangesAsync();
+        context.Add(resume);
+        await context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
@@ -104,7 +89,7 @@ public class ResumesController : Controller
             return NotFound();
         }
 
-        var resume = await _context.Resumes.FindAsync(id);
+        var resume = await context.Resumes.FindAsync(id);
         if (resume == null)
         {
             return NotFound();
@@ -125,8 +110,8 @@ public class ResumesController : Controller
         {
             try
             {
-                _context.Update(resume);
-                await _context.SaveChangesAsync();
+                context.Update(resume);
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -151,7 +136,7 @@ public class ResumesController : Controller
             return NotFound();
         }
 
-        var resume = await _context.Resumes
+        var resume = await context.Resumes
             .FirstOrDefaultAsync(m => m.Id == id);
         if (resume == null)
         {
@@ -165,18 +150,18 @@ public class ResumesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        var resume = await _context.Resumes.FindAsync(id);
+        var resume = await context.Resumes.FindAsync(id);
         if (resume != null)
         {
-            _context.Resumes.Remove(resume);
+            context.Resumes.Remove(resume);
         }
 
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool ResumeExists(Guid id)
     {
-        return _context.Resumes.Any(e => e.Id == id);
+        return context.Resumes.Any(e => e.Id == id);
     }
 }

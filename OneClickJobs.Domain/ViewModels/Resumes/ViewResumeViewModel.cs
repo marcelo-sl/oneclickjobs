@@ -1,8 +1,14 @@
 ﻿namespace OneClickJobs.Domain.ViewModels.Resumes;
 
-public class ViewResumeViewModel
+public class ViewResumeViewModel(Guid id, string fileName, byte[] fileContent, DateTimeOffset createdAt)
 {
-    public Guid Id { get; set; }
-    public required string FileName { get; set; }
-    public required string Base64string { get; set; }
+    public Guid Id { get; set; } = id;
+    public string FileName { get; set; } = fileName;
+    public DateTimeOffset CreatedAt { get; set; } = createdAt;
+
+    public string GetFileBase64String()
+    {
+        return "data:application/pdf;base64," + Convert.ToBase64String(fileContent);
+    }
+    
 }

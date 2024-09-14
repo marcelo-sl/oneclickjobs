@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Details";
-    var pdfBase64String = "data:application/pdf;base64," + Model.Base64string;
 }
 
 <h1>Details</h1>
@@ -10,7 +9,7 @@
 <div>
     <p>@Model?.FileName</p>
     <hr />
-    <iframe src="@pdfBase64String" style="width:100%;height:1000px;"></iframe>
+    <iframe src="@Model?.GetFileBase64String()" style="width:100%;height:1000px;"></iframe>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
