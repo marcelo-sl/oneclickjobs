@@ -4,10 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 using OneClickJobs.Domain.Entities;
 using OneClickJobs.Domain.Services;
-using OneClickJobs.Domain.ViewModels;
 using OneClickJobs.Domain.ViewModels.Jobs;
 using OneClickJobs.Web.Data.Contexts;
-using OneClickJobs.Web.Helpers;
 
 namespace OneClickJobs.Web.Controllers;
 
@@ -15,42 +13,14 @@ namespace OneClickJobs.Web.Controllers;
 public class JobsController(ApplicationDbContext context, IAuthenticationService authenticationService) : Controller
 {
     [AllowAnonymous]
-    public async Task<IActionResult> Index([FromQuery] QueryParamsViewModel queryParams)
+    public async Task<IActionResult> Index()
     {
-        List<Job> jobs = [];
-
-        int recordsCount = 0;
-
-        if (string.IsNullOrWhiteSpace(queryParams.Search))
-        {
-            recordsCount = context.Jobs.Count();
-
-            jobs = await context.Jobs
+        List<Job> jobs = jobs = await context.Jobs
                 .AsNoTracking()
-                .OrderByDescending(x => x.CreatedAt)
-                .Skip(PaginationHelper.SkipRecords(queryParams.Page, queryParams.Size))
-                .Take(PaginationHelper.TakeRecords(queryParams.Size))
                 .Include(x => x.Categories)
-                .ToListAsync();
-        }
-        else
-        {
-            recordsCount = context.Jobs
-                .Where(x => x.Title.Contains(queryParams.Search) || x.Description.Contains(queryParams.Search))
-                .Count();
-
-            jobs = await context.Jobs
-                .AsNoTracking()
-                .Where(x => x.Title.Contains(queryParams.Search) || x.Description.Contains(queryParams.Search))
+                .Where(x => x.Status == JobStatus.Open)
                 .OrderByDescending(x => x.CreatedAt)
-                .Skip(PaginationHelper.SkipRecords(queryParams.Page, queryParams.Size))
-                .Take(PaginationHelper.TakeRecords(queryParams.Size))
-                .Include(x => x.Categories)
                 .ToListAsync();
-        }
-
-        ViewData["Search"] = queryParams.Search;
-        ViewData["Count"] = recordsCount;
 
         return View(jobs);
     }

@@ -13,53 +13,58 @@
     </div>
 }
 
-<div class="my-3">
-    <form class="d-flex" role="search">
-        <input class="form-control me-2" name="search" type="search" placeholder="Search" value="@ViewData["Search"]" aria-label="Search">
-        <button class="btn btn-success" type="submit">Search</button>
-    </form>
+<div class="my-4">
+    <table class="table" id="jobsTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Categories)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @string.Join(",", item.Categories.Select(x => x.Name))
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @item.CreatedAt.ToLocalTime().DateTime.ToString()
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a class="btn btn-sm btn-primary" asp-controller="Applications" asp-action="Create" asp-route-id="@item.Id">Apply</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Categories)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @string.Join(",", item.Categories.Select(x => x.Name))
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @item.CreatedAt.ToLocalTime().DateTime.ToString()
-            </td>
-            <td>
-                <a class="btn btn-sm btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                <a class="btn btn-sm btn-primary" asp-controller="Applications" asp-action="Create" asp-route-id="@item.Id">Apply</a>
-            </td>
-        </tr>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#jobsTable').DataTable({
+                "order": [[3, 'desc']],
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>
-
-<span>Total @ViewData["Count"] results</span>
