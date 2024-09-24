@@ -28,6 +28,8 @@ public class Program
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
         builder.Services.AddHttpContextAccessor();
+        builder.Services.AddMemoryCache();
+
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
         var app = builder.Build();

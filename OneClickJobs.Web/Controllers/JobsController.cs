@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 using OneClickJobs.Domain.Entities;
 using OneClickJobs.Domain.Services;
@@ -10,19 +11,27 @@ using OneClickJobs.Web.Data.Contexts;
 namespace OneClickJobs.Web.Controllers;
 
 [Authorize]
-public class JobsController(ApplicationDbContext context, IAuthenticationService authenticationService) : Controller
+public class JobsController(ApplicationDbContext context, IAuthenticationService authenticationService, IMemoryCache memoryCache) : Controller
 {
+    private const string jobsKey = "jobs";
+
     [AllowAnonymous]
     public async Task<IActionResult> Index()
     {
-        List<Job> jobs = jobs = await context.Jobs
+        if (!memoryCache.TryGetValue(jobsKey, out var cachedJobs))
+        {
+            List<Job> jobs = jobs = await context.Jobs
                 .AsNoTracking()
                 .Include(x => x.Categories)
                 .Where(x => x.Status == JobStatus.Open)
                 .OrderByDescending(x => x.CreatedAt)
                 .ToListAsync();
 
-        return View(jobs);
+            memoryCache.Set(jobsKey, jobs, TimeSpan.FromMinutes(5));
+            return View(jobs);
+        }
+
+        return View(cachedJobs);
     }
 
     public async Task<IActionResult> Details(int? id)
